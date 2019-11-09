@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('/posts', 'PostsController@store');
+Route::patch('/posts/{post}', 'PostsController@update');
