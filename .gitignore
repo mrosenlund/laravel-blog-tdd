@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 .idea
 .DS_Store
+report
+reports
+.env.testing

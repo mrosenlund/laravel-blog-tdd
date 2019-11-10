@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Post;
+use App\Models\Post;
 
 class PostTest extends TestCase
 {
@@ -21,8 +21,10 @@ class PostTest extends TestCase
                         'posted_at' =>  date("Y-m-d H:i:s")
                      ]);
 
-        $response->assertOk();
+        $post = Post::first();
+
         $this->assertCount(1, Post::all());
+        $response->assertRedirect('/posts/' . $post->id);
     }
 
     /** @test **/
@@ -54,8 +56,7 @@ class PostTest extends TestCase
 
         $this->post('/posts', [
             'title'     =>  'New Blog Post Title',
-            'body'      =>  'New blog post body text',
-            'posted_at' =>  date("Y-m-d H:i:s")
+            'body'      =>  'New blog post body text'
         ]);
 
         $post = Post::first();
@@ -67,5 +68,25 @@ class PostTest extends TestCase
 
         $this->assertEquals('New Title', Post::first()->title);
         $this->assertEquals('New Body', Post::first()->body);
+        $response->assertRedirect('/posts/' . $post->id);
     }
+
+    /** @test **/
+    public function a_post_can_be_deleted()
+    {
+        $this->post('/posts', [
+            'title'     =>  'New Blog Post Title',
+            'body'      =>  'New blog post body text'
+        ]);
+
+        $post = Post::first();
+        $this->assertCount(1, Post::all());
+
+        $response = $this->delete('/posts/' . $post->id);
+
+        $this->assertCount(0, Post::all());
+        $response->assertRedirect('/posts');
+    }
+
+
 }
