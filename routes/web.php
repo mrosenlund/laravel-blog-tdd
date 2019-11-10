@@ -18,3 +18,7 @@ Route::delete('/posts/{post}', 'PostsController@destroy');
 Route::post('/categories', 'CategoryController@store');
 Route::patch('/categories/{category}', 'CategoryController@update');
 Route::delete('/categories/{category}', 'CategoryController@destroy');
+
+Route::post('/roles', 'RoleController@store');
+Route::patch('/roles/{role}', 'RoleController@update');
+Route::delete('/roles/{role}', 'RoleController@destroy');
